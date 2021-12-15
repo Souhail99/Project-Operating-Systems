@@ -1,0 +1,28 @@
+Data is entered into the computer via stdin (usually the keyboard), and the resulting output goes to stdout (usually the shell). These pathways are called streams. However, it's possible to alter these input and output locations, causing the computer to get information from somewhere other than stdin or send the results somewhere other than stdout. This functionality is referred to as redirection.
+
+In this article, you'll learn five redirect operators, including one for stderr. I've provided examples of each and presented the material in a way that you can duplicate on your own Linux system.
+
+Regular output > operator
+The output redirector is probably the most recognized of the operators. The standard output (stdout) is usually to the terminal window. For example, when you type the date command, the resulting time and date output is displayed on the screen.
+
+[damon@localhost ~]$ date
+Tue Dec 29 04:07:37 PM MST 2020
+[damon@localhost ~]$
+It is possible, however, to redirect this output from stdout to somewhere else. In this case, I'm going to redirect the results to a file named specifications.txt. I'll confirm it worked by using the cat command to view the file contents.
+
+[damon@localhost ~]$ date > specifications.txt
+[damon@localhost ~]$ cat specifications.txt 
+Tue Dec 29 04:08:44 PM MST 2020
+[damon@localhost ~]$ 
+The problem with the > redirector is that it overwrites any existing data in the file. At this stage, you now have date information in the specifications.txt file, right? If you type hostname > specifications.txt, the output will be sent to the text file, but it will overwrite the existing time and date information from the earlier steps.
+
+[damon@localhost ~]$ hostname > specifications.txt 
+[damon@localhost ~]$ cat specifications.txt 
+localhost.localdomain
+[damon@localhost ~]$ 
+It is easy to get in trouble with the > redirector by accidentally overwriting existing information.
+
+[ Readers also enjoyed: 10 basic Linux commands you need to know ]
+
+Regular output append >> operator
+The append >> operator adds the output to the existing content instead of overwriting it. This allows you to redirect the output from multiple commands to a single file. For example, I could redirect the output of date by using the > operator and then redirect hostname and uname -r to the specifications.txt file by using >> operator.
