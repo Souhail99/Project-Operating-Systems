@@ -8,10 +8,16 @@ import os
 import sys
 import subprocess
 
-
-
 host_name=socket.gethostname()
 host_ip=socket.gethostbyname(host_name)
+try:
+    print("Welcome : \n")
+    print("Your Local IPS Is: " + host_ip)
+    print("Your Desktop Name Is: " + host_name+"\n")
+except: 
+    print("Sorry, I can't show you your name or your IP (maybe because I don't have the right or access to read them)\n")
+
+
 print("Terminal :")
 
 # I define here 5 variables, which will be useful to us
