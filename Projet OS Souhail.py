@@ -3,43 +3,47 @@
 # the first line is for the user want to use the project without de need to write (python etc...) 
 
 # For socket, the only utility is for catch and show the name and IP of the host
-import socket
 import os
 import sys
 import subprocess
 
-host_name=socket.gethostname()
-host_ip=socket.gethostbyname(host_name)
-try:
-    print("Welcome : \n")
-    print("Your Local IPS Is: " + host_ip)
-    print("Your Desktop Name Is: " + host_name+"\n")
-except: 
-    print("Sorry, I can't show you your name or your IP (maybe because I don't have the right or access to read them)\n")
-
-
-print("Terminal :")
-
-# I define here 5 variables, which will be useful to us
+# I define here 4 variables, which will be useful in my code
 listes=[]
 listespath=[]
-#index=0
 result=""
 c=True
 
 # So this is the function which realize the user's entry (command) 
 def commande(code):
-    # I define here 5 variables, which will be useful to us (when we want to use another command these variables reset)
+    # I define here 5 variables, which will be useful to us (when we want to use another command these variables will be reset)
     listes=[]
     listespath=[]
     result=""
     c=True
+    # Here I define two case, espcially for redirections and "sh" command
+    
+    # Let's imagine that we have the case of cat text.txt>text2.txt so without a space so we need to add a space 
     if ">" in code and " " not in code:
         listes.extend(code.split(">"))
         listes.extend(" ")
         listes[len(listes)-1]=listes[len(listes)-2]
         listes[len(listes)-2]=">"
-    elif ".sh" in code or code.startswith("sh "):
+
+    if ">" in code and " " in code:
+        listes2=[]
+        listes.extend(code.split(">"))
+        listes.extend(" ")
+        listes[len(listes)-1]=listes[len(listes)-2]
+        listes[len(listes)-2]=">"
+        for i in range(0,len(listes)):
+            listes2.extend(listes[i].split(" "))
+        if '' in listes2:
+            listes2.remove('')
+        listes=[]
+        listes=listes2
+    # Like the first case, if we have a .sh or the commande line begin with sh, we need to be careful with that
+    #
+    elif ".sh" in code or (code.startswith("sh ") and ".sh" in code):
         listes.extend(code.split(" "))
         str_match = [s for s in listes if s.__contains__(".sh")]
         s=str_match[0]
@@ -129,7 +133,10 @@ for i in arg:
 if fileBatchMode:
     file=open(NameOfFile,"r")
     for line in file.readlines():
-        commande(line.rstrip())
+        if "exit" not in line.rstrip():
+            commande(line.rstrip())
+        else:
+            c=False
     file.close()
 #endregion
 
@@ -138,19 +145,26 @@ if fileBatchMode:
 while c:
     #In this part, I try to test 2 command like local and exit (to stop the program)
     code = input("mysh$ ")
-    if code == 'local' or code=='exit' or (code.startswith("cd ") or code == "cd"):
-            if code =='local':
-                    print("Your Local IPS Is: " + host_ip)
-                    print("Your Desktop Name Is: " + host_name)
-            elif code =='exit':
+    if code=='exit' or (code.startswith("cd ") or code == "cd"):
+            if code =='exit':
                 c=False
             elif code.strip() == "cd":
                 os.chdir(os.environ["HOME"])
             else:
-                os.chdir(code.split(" ")[1])
+                if len(code.split(" "))==2:
+                    os.chdir(code.split(" ")[1])
+                else:
+                    newcode=''
+                    c=code.split(" ")
+                    for i in range(1,len(c)):
+                        if i == 1:
+                            newcode+=c[i]+" "
+                        else:
+                            newcode+=c[i]
+                    os.chdir(newcode)
     #In this part, I recover the user's command and I split it. Then, I find in my computer the list of path where we can find the commands, then to finish (In the case of I don't respect the following if) I take back the command and/or the file        
     #In the others cases
-    else:
+    elif code.isspace()!=True and len(code)>=1:
         commande(code)
 #endregion
                         

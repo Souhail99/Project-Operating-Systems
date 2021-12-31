@@ -1,4 +1,4 @@
- echo salut
+echo salut
 echo autre
 echo dernier
 echo akfzerf
