@@ -2,7 +2,6 @@
 
 # the first line is for the user want to use the project without de need to write (python etc...) 
 
-# For socket, the only utility is for catch and show the name and IP of the host
 import os
 import sys
 import subprocess
@@ -15,7 +14,8 @@ c=True
 
 # So this is the function which realize the user's entry (command) 
 def commande(code):
-    # I define here 5 variables, which will be useful to us (when we want to use another command these variables will be reset)
+
+    # I define here 4 variables, which will be useful to us (when we want to use another command these variables will be reset)
     listes=[]
     listespath=[]
     result=""
@@ -23,13 +23,13 @@ def commande(code):
     # Here I define two case, espcially for redirections and "sh" command
     
     # Let's imagine that we have the case of cat text.txt>text2.txt so without a space so we need to add a space 
-    if ">" in code and " " not in code:
-        listes.extend(code.split(">"))
-        listes.extend(" ")
-        listes[len(listes)-1]=listes[len(listes)-2]
-        listes[len(listes)-2]=">"
+    # if ">" in code and " " not in code:
+    #     listes.extend(code.split(">"))
+    #     listes.extend(" ")
+    #     listes[len(listes)-1]=listes[len(listes)-2]
+    #     listes[len(listes)-2]=">"
 
-    if ">" in code and " " in code:
+    if ">" in code:
         listes2=[]
         listes.extend(code.split(">"))
         listes.extend(" ")
@@ -39,7 +39,6 @@ def commande(code):
             listes2.extend(listes[i].split(" "))
         if '' in listes2:
             listes2.remove('')
-        listes=[]
         listes=listes2
     # Like the first case, if we have a .sh or the commande line begin with sh, we need to be careful with that
     #
@@ -109,13 +108,15 @@ def commande(code):
             err = open(listes[pos+1], "wb")
             listes.remove(listes[pos+1])
             listes.remove("2>")
-            #So after that I can use subprocess.Popen and communicate() to launch our shell !!!!
+            
+        #So after that I can use subprocess.Popen and communicate() to launch our shell !!
         process = subprocess.Popen([fichier, *listes[1:]],
                 stdout=out, 
                 stderr=err,
                 stdin=0)
         process.communicate()
-            # In the case where we have an error I return a message
+        
+        # In the case where we have an error I return a message
     except:
         err = "An error has occurred\n"
         print(err, file=sys.stderr)
@@ -131,14 +132,18 @@ for i in arg:
         NameOfFile=str(i)
         break
 if fileBatchMode:
+    #réussir à faire marcher meme si on a une ligne vide entre deux lignes de code ou si y'a des lignes vides à la fin
     file=open(NameOfFile,"r")
     for line in file.readlines():
-        if "exit" not in line.rstrip():
+        if "exit" not in line.rstrip() and line.strip()!='':
             commande(line.rstrip())
-        else:
+        if "exit" == line.rstrip():
             c=False
+        #if ".sh"
     file.close()
 #endregion
+
+
 
 #region main 
 #Otherwise, if we don't need the batch mode or after the batch mode
