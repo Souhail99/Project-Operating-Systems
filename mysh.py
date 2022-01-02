@@ -23,12 +23,6 @@ def commande(code):
     # Here I define two case, espcially for redirections and "sh" command
     
     # Let's imagine that we have the case of cat text.txt>text2.txt so without a space so we need to add a space 
-    # if ">" in code and " " not in code:
-    #     listes.extend(code.split(">"))
-    #     listes.extend(" ")
-    #     listes[len(listes)-1]=listes[len(listes)-2]
-    #     listes[len(listes)-2]=">"
-
     if ">" in code:
         listes2=[]
         listes.extend(code.split(">"))
@@ -122,7 +116,7 @@ def commande(code):
         print(err, file=sys.stderr)
 
 
-#region Batch Mode                      
+#region Batch Mode               
 arg=sys.argv
 fileBatchMode=False
 NameOfFile=""
@@ -160,12 +154,12 @@ while c:
                     os.chdir(code.split(" ")[1])
                 else:
                     newcode=''
-                    c=code.split(" ")
-                    for i in range(1,len(c)):
+                    h=code.split(" ")
+                    for i in range(1,len(h)):
                         if i == 1:
-                            newcode+=c[i]+" "
+                            newcode+=h[i]+" "
                         else:
-                            newcode+=c[i]
+                            newcode+=h[i]
                     os.chdir(newcode)
     #In this part, I recover the user's command and I split it. Then, I find in my computer the list of path where we can find the commands, then to finish (In the case of I don't respect the following if) I take back the command and/or the file        
     #In the others cases
