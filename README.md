@@ -15,4 +15,4 @@ import sys
 import subprocess
 ```
 
-In this repository, you find my reports which explain the code (even if I have some block comments in my script .py) and some example of code necessary for the project.
+In this repository, you find my reports which explain the code (even if I have some block comments in my script .py) and in some examples of code necessary for the project.
