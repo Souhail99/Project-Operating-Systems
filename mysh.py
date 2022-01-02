@@ -126,14 +126,12 @@ for i in arg:
         NameOfFile=str(i)
         break
 if fileBatchMode:
-    #réussir à faire marcher meme si on a une ligne vide entre deux lignes de code ou si y'a des lignes vides à la fin
     file=open(NameOfFile,"r")
     for line in file.readlines():
         if "exit" not in line.rstrip() and line.strip()!='':
             commande(line.rstrip())
         if "exit" == line.rstrip():
             c=False
-        #if ".sh"
     file.close()
 #endregion
 
