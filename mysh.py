@@ -35,7 +35,7 @@ def commande(code):
             listes2.remove('')
         listes=listes2
     # Like the first case, if we have a .sh or the commande line begin with sh, we need to be careful with that
-    #
+
     elif ".sh" in code or (code.startswith("sh ") and ".sh" in code):
         listes.extend(code.split(" "))
         str_match = [s for s in listes if s.__contains__(".sh")]
