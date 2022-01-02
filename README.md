@@ -43,3 +43,10 @@ Or :
 ```bash
 "/home/guignole/Documents/Projet OS/mysh.py" test.sh
 ```
+
+For this two second case, I use this in my first line in script :
+
+```py
+#!/usr/bin/env python
+```
+To allow the user not to have to write python3 if you know the full path (like in two previous examples with a path).
