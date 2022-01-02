@@ -10,8 +10,6 @@ Project from this [source](https://vqhuy.github.io/teaching/linux/project).
 First you need to import this :
 
 ```py
-#socket is not important but only if you want to see your Ip and host name
-import socket
 import os
 import sys
 import subprocess
