@@ -44,7 +44,13 @@ Or :
 "/home/guignole/Documents/Projet OS/mysh.py" test.sh
 ```
 
-For this two second case, I use this in my first line in script :
+Or :
+
+```bash
+./mysh.py test.sh
+```
+
+For this three second case (without python3), I use this in my first line in script :
 
 ```py
 #!/usr/bin/env python
