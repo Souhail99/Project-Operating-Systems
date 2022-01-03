@@ -148,17 +148,20 @@ while c:
             elif code.strip() == "cd":
                 os.chdir(os.environ["HOME"])
             else:
-                if len(code.split(" "))==2:
-                    os.chdir(code.split(" ")[1])
-                else:
-                    newcode=''
-                    h=code.split(" ")
-                    for i in range(1,len(h)):
-                        if i == 1:
-                            newcode+=h[i]+" "
-                        else:
-                            newcode+=h[i]
-                    os.chdir(newcode)
+                try:
+                    if len(code.split(" "))==2:
+                        os.chdir(code.split(" ")[1])
+                    else:
+                        newcode=''
+                        h=code.split(" ")
+                        for i in range(1,len(h)):
+                            if i < len(h)-1:
+                                newcode+=h[i]+" "
+                            else:
+                                newcode+=h[i]
+                        os.chdir(newcode)
+                except:
+                    print("Unexpected error:", sys.exc_info()[1])
     #In this part, I recover the user's command and I split it. Then, I find in my computer the list of path where we can find the commands, then to finish (In the case of I don't respect the following if) I take back the command and/or the file        
     #In the others cases
     elif code.isspace()!=True and len(code)>=1:
